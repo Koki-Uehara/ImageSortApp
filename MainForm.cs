@@ -13,7 +13,7 @@ namespace ImageSortApp
             InitializeComponent();
         }
 
-        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        private async void MainForm_DragDrop(object sender, DragEventArgs e)
         {
             try
             {
@@ -22,7 +22,7 @@ namespace ImageSortApp
                     var files = (string[])e.Data.GetData(DataFormats.FileDrop);
                     foreach (var file in files)
                     {
-                        ProcessDirectory(file);
+                        await ProcessDirectory(file);
                     }
 
                     MessageBox.Show("Š®—¹‚µ‚Ü‚µ‚½");
@@ -44,23 +44,27 @@ namespace ImageSortApp
             }
         }
 
-        private void ProcessDirectory(string sourceFolder)
+        private async Task ProcessDirectory(string sourceFolder)
         {
             var imageFiles = Directory.GetFiles(sourceFolder, "*.*", SearchOption.TopDirectoryOnly)
                 .Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".jpeg") || s.EndsWith(".bmp") || s.EndsWith(".gif"));
 
             int folderIndex = 1;
+
             int fileIndex = 0;
 
             foreach (var imageFile in imageFiles)
             {
                 var destinationFolder = Path.Combine(sourceFolder, folderIndex.ToString());
+
                 Directory.CreateDirectory(destinationFolder);
 
                 var destinationPath = Path.Combine(destinationFolder, Path.GetFileName(imageFile));
-                File.Move(imageFile, destinationPath);
+
+                await Task.Run(() => File.Move(imageFile, destinationPath));
 
                 fileIndex++;
+
                 folderIndex++;
 
                 if (fileIndex % 18 == 0)

@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-
+using System.Threading.Tasks;
 
 namespace ImageSortApp
 {
@@ -55,7 +55,7 @@ namespace ImageSortApp
 
             foreach (var imageFile in imageFiles)
             {
-                var destinationFolder = Path.Combine(sourceFolder, folderIndex.ToString());
+                var destinationFolder = Path.Combine(sourceFolder, Path.GetFileName(sourceFolder) + "_" + folderIndex.ToString());
 
                 Directory.CreateDirectory(destinationFolder);
 

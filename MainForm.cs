@@ -22,7 +22,9 @@ namespace ImageSortApp
                     var files = (string[])e.Data.GetData(DataFormats.FileDrop);
                     foreach (var file in files)
                     {
+                        Console.WriteLine("Processing " + file);
                         await ProcessDirectory(file);
+                        Console.WriteLine("Finished processing " + file);
                     }
 
                     MessageBox.Show("Š®—¹‚µ‚Ü‚µ‚½");
@@ -50,8 +52,8 @@ namespace ImageSortApp
                 .Where(s => s.EndsWith(".png") || s.EndsWith(".jpg") || s.EndsWith(".jpeg") || s.EndsWith(".bmp") || s.EndsWith(".gif"));
 
             int folderIndex = 1;
-
             int fileIndex = 0;
+            int imageIndex = 1;
 
             foreach (var imageFile in imageFiles)
             {
@@ -59,11 +61,16 @@ namespace ImageSortApp
 
                 Directory.CreateDirectory(destinationFolder);
 
-                var destinationPath = Path.Combine(destinationFolder, Path.GetFileName(imageFile));
+                var fileName = Path.GetFileName(imageFile);
+                var newFileName = imageIndex.ToString("D4") + fileName.Substring(fileName.IndexOf("_"));
+                var destinationPath = Path.Combine(destinationFolder, newFileName);
+
+                Console.WriteLine("Moving " + imageFile + " to " + destinationPath);
 
                 await Task.Run(() => File.Move(imageFile, destinationPath));
 
                 fileIndex++;
+                imageIndex++;
 
                 folderIndex++;
 

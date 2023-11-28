@@ -35,6 +35,7 @@
             // 
             listBox1.AllowDrop = true;
             listBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            listBox1.BackColor = SystemColors.InactiveCaption;
             listBox1.FormattingEnabled = true;
             listBox1.ItemHeight = 32;
             listBox1.Location = new Point(12, 35);

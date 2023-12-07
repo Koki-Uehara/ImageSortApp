@@ -108,6 +108,8 @@ namespace ImageSortApp
                 }
             }
 
+            this.Size = new Size(1240, 1240);
+
             // Œ»İ‚Ì‰æ‘œ‚ğ•\¦
             ShowCurrentImage();
         }
